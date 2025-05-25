@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QuickDecrypt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007acc;
+        }
+
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 97%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #007acc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #005f99;
+        }
+
+        .hint {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #464545;
+        }
+
+        .results {
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .best-guess {
+            background-color: #e7f7e7;
+            border-left: 5px solid #4caf50;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>QUICK-DECRYPT</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="ciphertext">Ciphertext:</label>
+        <input type="text" name="ciphertext" required>
+
+        <label for="shift">Shift (optional):</label>
+        <input type="number" name="shift" min="1" max="25">
+
+        <div class="hint">Hint: If not sure, leave shift blank to auto-detect.</div>
+
+        <br>
+        <button type="submit">Decrypt</button>
+    </form>
+
+    {% if result or brute_results %}
+        <div class="results">
+            {% if result %}
+                <h2>Decrypted Text:</h2>
+                <p>{{ result }}</p>
+            {% endif %}
+
+            {% if best_guess %}
+                <div class="best-guess">
+                    <strong>✅ Best Guess (Shift {{ best_guess.0 }}):</strong> {{ best_guess.1 }}
+                </div>
+            {% endif %}
+
+            {% if brute_results %}
+                <h3>All Possible Decryptions:</h3>
+                <ul>
+                    {% for shift, text in brute_results %}
+                        <li><strong>Shift {{ shift }}:</strong> {{ text }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
