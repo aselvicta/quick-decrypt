@@ -121,7 +121,8 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
-# Security settings for HTTPS
+
+"""Security settings for HTTPS
 SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
 SECURE_HSTS_SECONDS = 31536000  # Enable HTTP Strict Transport Security (1 year)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
@@ -131,6 +132,7 @@ CSRF_COOKIE_SECURE = True  # Ensure CSRF cookies are only sent over HTTPS
 SECURE_BROWSER_XSS_FILTER = True  # Enable the browser's XSS filtering
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent the browser from guessing content types
 
+"""
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
